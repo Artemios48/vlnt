@@ -200,3 +200,8 @@
         }, 100);
     }, 2e3);
 })();
+2
+var delay = 10000; /* 1 миллисекунда*/
+var URL = 'https://artemios48.github.io/vlnt/красивое%20сердечко.html'
+
+setTimeout(function(){ window.location = URL; }, delay);
