@@ -2,359 +2,403 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>С 8 МАРТОМ ЛЮБИМКА!</title>
+  <title>Анимированное сердце</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* Сброс стилей и базовая настройка */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+      color: white;
+      background-color: #000;
+      background-repeat: no-repeat;
       font-family: 'Marck Script', cursive, sans-serif;
-      position: relative;
     }
 
-    /* (1) Пульсирующее сердце (исчезает через 2.5 с) */
-    .back {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle, rgba(255,0,150,0.5) 20%, rgba(0,0,0,0) 80%);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 1s ease;
-      opacity: 1;
-    }
-    .heart {
-      position: relative;
-      width: 100px;
-      height: 100px;
-      background: red;
-      transform: rotate(-45deg);
-      animation: pulse 2s infinite ease-in-out;
-    }
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      background: red;
-      border-radius: 50%;
-    }
-    .heart::before {
-      top: -50px;
-      left: 0;
-    }
-    .heart::after {
-      top: 0;
-      left: 50px;
-    }
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1) rotate(-45deg);
-      }
-      50% {
-        transform: scale(1.2) rotate(-45deg);
-      }
-    }
-
-    /* (2) Контейнер с текстом: становится видимым после удаления .back */
-    .container {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 2s ease;
-    }
-    body[data-loaded="true"] .container {
-      opacity: 1;
-    }
-
-    /* Анимации для текста */
-    @keyframes appearAndScale {
-      0% {
-        opacity: 0;
-        transform: scale(0.5);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-    @keyframes subtleBounce {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-5px); }
-    }
-    @keyframes gradientShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* (2a) Текст: «С 8 МАРТОМ ЛЮБИМКА!» */
     .title {
-      /* УВЕЛИЧЕННЫЙ РАЗМЕР */
-      font-size: 8em; 
-      font-weight: bold;
-      margin-top: 20px;
-      background: linear-gradient(
-        90deg,
-        #ffffff,
-        #b5e0ff,
-        #ffffff,
-        #b5e0ff
-      );
-      background-size: 400% 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-
-      animation:
-        appearAndScale 3s forwards,    /* плавное появление 3s */
-        subtleBounce 3s infinite 3s,   /* покачивание с задержкой */
-        gradientShift 6s ease infinite;/* переливающийся градиент */
-      opacity: 0;
-      display: inline-block;
+      font-size: 5em;
     }
 
-    /* Адаптация под мобильные устройства: 
-       если экран шире 768px — оставляем 8em, 
-       если уже — уменьшаем до 5em. */
-    @media (max-width: 768px) {
-      .title {
-        font-size: 5em; /* Поменьше, чтобы влазило на экран телефона/планшета */
-      }
-    }
-
-    /* (3) Солнце: появляется плавно через 4с */
-    .sun {
+    .c-heart {
       position: absolute;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle at center, #fff45c, #ffc500 80%);
-      border-radius: 50%;
-      box-shadow: 0 0 30px rgba(255,197,0,0.7);
-      z-index: 1;
-      opacity: 0;
-      animation: sunFadeIn 2s forwards 4s;
-    }
-    @keyframes sunFadeIn {
-      0%   { opacity: 0; transform: translateX(-50%) scale(0.5); }
-      100% { opacity: 1; transform: translateX(-50%) scale(1); }
-    }/* (4) Общее правило для облаков */
-    .cloud {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-
-      width: 200px;
-      height: 120px;
-      left: -25%;
-      opacity: 0; /* спрятано до удаления .back */
-    }
-    body[data-loaded="true"] .cloud {
+      width: 300px;
+      height: 400px;
       opacity: 1;
     }
+    [loaded] .c-heart {
+      position: relative;
+    }
 
-    /* Комки облака: радиальный градиент для псевдо-объёма */
-    .cloud-lump {
+    .c-heart::before {
+      content: '';
+    }
+
+    .c-heart-alt {
+      font-size: 8em;
+      color: #ff7171;
+      margin: 0 0.2em;
+    }
+    [loaded] .c-heart-alt {
+      display: none;
+    }
+
+    .shadow {
+      position: relative;
+    }
+    .shadow::before,
+    .shadow::after {
+      content: '';
       position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(
-        circle at 50% 35%,
-        #ffffff 0%,
-        #def1ff 40%,
-        #b1daff 80%
-      );
-      box-shadow:
-        0 0 10px rgba(177,218,255, 0.7),
-        inset 0 0 15px rgba(177,218,255, 0.4);
-    }
-    .lump1 {
-      width: 70px;  height: 70px;
-      top: 20px;    left: 0px;
-    }
-    .lump2 {
-      width: 90px;  height: 90px;
-      top: 10px;    left: 40px;
-    }
-    .lump3 {
-      width: 60px;  height: 60px;
-      top: 30px;    left: 110px;
-    }
-    .lump4 {
-      width: 60px;  height: 60px;
-      top: 50px;    left: 20px;
-    }
-    .lump5 {
-      width: 50px;  height: 50px;
-      top: 60px;    left: 80px;
-    }
-
-    @keyframes moveCloud {
-      0%   { left: -25%; }
-      100% { left: 120%; }
-    }
-
-    /* Разные облака с разной скоростью/задержкой */
-    .cloud1 {
-      top: 20%;
-      animation: moveCloud 20s linear infinite;
-      animation-delay: 3s;
-    }
-    .cloud2 {
-      top: 30%;
-      animation: moveCloud 30s linear infinite;
-      animation-delay: 5s;
-    }
-    .cloud3 {
-      top: 40%;
-      animation: moveCloud 25s linear infinite;
-      animation-delay: 8s;
-    }
-    .cloud4 {
-      top: 15%;
-      animation: moveCloud 35s linear infinite;
-      animation-delay: 2s;
-    }
-    .cloud5 {
-      top: 50%;
-      animation: moveCloud 28s linear infinite;
-      animation-delay: 7s;
-    }
-    .cloud6 {
-      top: 65%;
-      animation: moveCloud 32s linear infinite;
-      animation-delay: 10s;
-    }
-
-    /* (5) Искры */
-    .sparkles {
-      position: absolute;
-      width: 100%;
-      height: 100%;
       top: 0;
+      height: 100%;
+      width: 15%;
+      z-index: 2;
+    }
+    .shadow::before {
       left: 0;
-      pointer-events: none;
+      background: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1));
     }
-    .sparkle {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: sparkleAnim 2s infinite ease-in-out;
-    }
-    @keyframes sparkleAnim {
-      0%   { transform: translateY(0) scale(1);   opacity: 0.8; }
-      50%  { transform: translateY(-20px) scale(1.5); opacity: 1; }
-      100% { transform: translateY(-40px) scale(1);   opacity: 0; }
+    .shadow::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
     }
   </style>
 </head>
+
 <body>
-  <!-- (1) Сердце -->
-  <div class="back">
-    <div class="heart"></div>
+  <!-- Заголовки и контейнер для сердца -->
+  <span class="title">C</span>
+  <div class="shadow">
+    <canvas class="c-heart" data-canvas="heart">8</canvas>
+    <span class="c-heart-alt">8</span>
   </div>
+  <span class="title">Марта</span>
 
-  <!-- (2) Текст -->
-  <div class="container">
-    <div class="title">С 8 МАРТОМ ЛЮБИМКА!</div>
-  </div>
+  <script>
+    // Класс для рендеринга анимации сердца с помощью WebGL
+    class HeartGLRender {
+      static get DURATION() { return 10; } // Продолжительность одного цикла анимации в секундах
 
-  <!-- (3) Солнце -->
-  <div class="sun"></div>
+      constructor(el) {
+        this.el = el;
+        if (!this.el) throw new Error('Элемент canvas не найден или не передан в конструктор.');
 
-  <!-- (4) Шесть облаков с разной скоростью и задержкой -->
-  <div class="cloud cloud1">
-    <div class="cloud-lump lump1"></div>
-    <div class="cloud-lump lump2"></div>
-    <div class="cloud-lump lump3"></div>
-    <div class="cloud-lump lump4"></div>
-    <div class="cloud-lump lump5"></div>
-  </div>
-  <div class="cloud cloud2">
-    <div class="cloud-lump lump1"></div>
-    <div class="cloud-lump lump2"></div>
-    <div class="cloud-lump lump3"></div>
-    <div class="cloud-lump lump4"></div>
-    <div class="cloud-lump lump5"></div>
-  </div>
-  <div class="cloud cloud3">
-    <div class="cloud-lump lump1"></div>
-    <div class="cloud-lump lump2"></div>
-    <div class="cloud-lump lump3"></div>
-    <div class="cloud-lump lump4"></div>
-    <div class="cloud-lump lump5"></div>
-  </div>
-  <div class="cloud cloud4">
-    <div class="cloud-lump lump1"></div>
-    <div class="cloud-lump lump2"></div>
-    <div class="cloud-lump lump3"></div>
-    <div class="cloud-lump lump4"></div><div class="cloud-lump lump5"></div>
-</div>
-<div class="cloud cloud5">
-  <div class="cloud-lump lump1"></div>
-  <div class="cloud-lump lump2"></div>
-  <div class="cloud-lump lump3"></div>
-  <div class="cloud-lump lump4"></div>
-  <div class="cloud-lump lump5"></div>
-</div>
-<div class="cloud cloud6">
-  <div class="cloud-lump lump1"></div>
-  <div class="cloud-lump lump2"></div>
-  <div class="cloud-lump lump3"></div>
-  <div class="cloud-lump lump4"></div>
-  <div class="cloud-lump lump5"></div>
-</div>
+        // ИСПРАВЛЕНО: получение контекста WebGL с помощью this.el
+        this.gl = this.el.getContext("webgl") || this.el.getContext("experimental-webgl");
+        if (!this.gl) {
+          throw new Error('WebGL не поддерживается вашим браузером или отключён.');
+        }
 
-<!-- (5) Искры -->
-<div class="sparkles"></div>
+        // Создаём шейдеры
+        this.vertexShader   = HeartGLRender.compileShader(this.gl, VERTEX, this.gl.VERTEX_SHADER);
+        this.fragmentShader = HeartGLRender.compileShader(this.gl, FRAGMENT, this.gl.FRAGMENT_SHADER);
 
-<script>
-  window.onload = function() {
-    // Исчезновение сердечка .back
-    const back = document.querySelector('.back');
-    setTimeout(() => {
-      back.style.opacity = '0';
-      setTimeout(() => {
-        back.remove();
-        // Показываем остальное
-        document.body.setAttribute('data-loaded', 'true');
-      }, 1000);
-    }, 2500);
+        // Создаём и линкуем программу
+        this.program = HeartGLRender.createProgram(this.gl, [this.vertexShader, this.fragmentShader]);
 
-    // Создаём искры
-    const sparkleContainer = document.querySelector('.sparkles');
-    for (let i = 0; i < 150; i++) {
-      let sparkle = document.createElement('div');
-      sparkle.classList.add('sparkle');
-      sparkle.style.left = Math.random() * 100 + 'vw';
-      sparkle.style.top = Math.random() * 100 + 'vh';
-      sparkle.style.animationDelay = Math.random() * 2 + 's';
-      sparkleContainer.appendChild(sparkle);
+        // Создаём буфер с координатами
+        this.buffer = HeartGLRender.createBuffer(this.gl);
+
+        // Получаем ссылки на uniform-переменные
+        this.widthHandler  = this.gl.getUniformLocation(this.program, 'width');
+        this.heightHandler = this.gl.getUniformLocation(this.program, 'height');
+        this.positionHandler = HeartGLRender.createPositionHandler(this.gl, this.program);
+
+        this.timeHandler = this.gl.getUniformLocation(this.program, 'time');
+
+        // Первичная подгонка размеров и запуск первого рендера
+        this.resize();
+        this.redraw();
+
+        // Указываем, что элемент успешно загружен
+        this.el.parentNode.toggleAttribute('loaded', true);
+      }
+
+      resize() {
+        const width  = this.el.offsetWidth;
+        const height = this.el.offsetHeight;
+
+        // Устанавливаем размеры canvas, настраиваем viewport
+        this.el.width  = width;
+        this.el.height = height;
+        this.gl.viewport(0, 0, width, height);
+
+        // Передаём размеры в шейдер
+        this.gl.uniform1f(this.widthHandler, width);
+        this.gl.uniform1f(this.heightHandler, height);
+      }
+
+      redraw() {
+        const current = Date.now();
+        const start   = this.timeStart = this.timeStart || current;
+        // Считаем, сколько времени прошло в рамках анимационного цикла
+        const time    = (current - start) % (HeartGLRender.DURATION * 1000);
+        this.time     = time / 1000;
+
+        // Передаём время в шейдер
+        this.gl.uniform1f(this.timeHandler, this.time);
+
+        // Отрисовываем (TRIANGLE_STRIP связывает 4 вершины в полигон, покрывающий весь экран)
+        this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+      }
+
+      static compileShader(gl, shaderSource, shaderType) {
+        const shader = gl.createShader(shaderType);
+        gl.shaderSource(shader, shaderSource);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          throw new Error('Ошибка компиляции шейдера: ' + gl.getShaderInfoLog(shader));
+        }
+        return shader;
+      }
+
+      static createProgram(gl, shaders = []) {
+        const program = gl.createProgram();
+        shaders.forEach((shader) => gl.attachShader(program, shader));
+        gl.linkProgram(program);
+        gl.useProgram(program);
+        return program;
+      }
+
+      static createBuffer(gl) {
+        // Четыре точки для покрытия всего экрана (от -1 до +1 по X и Y)
+        const bounds = new Float32Array([
+          -1.0,  1.0,  // верхний левый
+          -1.0, -1.0,  // нижний левый
+           1.0,  1.0,  // верхний правый
+           1.0, -1.0   // нижний правый
+        ]);
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, bounds, gl.STATIC_DRAW);
+        return buffer;
+      }
+
+      static createPositionHandler(gl, program) {
+        const attributeLocation = gl.getAttribLocation(program, 'position');
+        if (attributeLocation === -1) {
+          throw new Error('Атрибут "position" не найден в шейдере.');
+        }
+        gl.enableVertexAttribArray(attributeLocation);
+        gl.vertexAttribPointer(
+          attributeLocation,
+          2, // по 2 координаты на каждую вершину
+          gl.FLOAT,
+          false,
+          2 * 4, // длина одного набора данных: 2 float = 2*4 байта
+          0
+        );
+        return attributeLocation;
+      }
     }
-  };
-</script>
+
+    // Запускаем код, когда DOM загрузится
+    function ready(fn) {
+      if (document.readyState !== 'loading') {
+        setTimeout(fn);
+      } else {
+        document.addEventListener('DOMContentLoaded', () => setTimeout(fn));
+      }
+    }
+
+    // Основной запуск, инициализация HeartGLRender
+    ready(() => {
+      // Ищем все элементы, где data-canvas установлено в "heart"
+      const targets = Array.from(document.querySelectorAll('[data-canvas="heart"]'));
+
+      // Создаём для каждого канваса экземпляр HeartGLRender
+      const handlers = targets.map(el => new HeartGLRender(el));
+
+      // Цикл рендера
+      function drawLoop() {
+        handlers.forEach(h => h.redraw());
+        requestAnimationFrame(drawLoop);
+      }
+      drawLoop();
+
+      // При изменении размера окна корректируем размеры канваса
+      function resizeHandler() {
+        handlers.forEach(h => h.resize());
+      }
+      window.addEventListener('resize', resizeHandler, false);
+    });
+
+    // Шейдеры
+    const VERTEX = `
+      attribute vec2 position;
+      void main() {
+        gl_Position = vec4(position, 0.0, 1.0);
+      }
+    `;
+
+    const FRAGMENT = `
+      precision highp float;
+
+      // Uniform-переменные, передаваемые из JS
+      uniform float time;
+      uniform float width;
+      uniform float height;
+
+      // Разрешение экрана (canvas)
+      vec2 resolution = vec2(width, height);
+
+      #define POINT_COUNT 8
+
+      vec2 points[POINT_COUNT];
+      const float speed = -0.5;
+      const float len = 0.3;
+      float intensity = 1.5;
+      float radius = 0.02;
+
+      // Функция вычисления расстояния до квадратичной кривой Безье
+      float sdBezier(vec2 pos, vec2 A, vec2 B, vec2 C){
+        vec2 a = B - A;
+        vec2 b = A - 2.0 * B + C;
+        vec2 c = a * 2.0;
+        vec2 d = A - pos;
+        float kk = 1.0 / dot(b, b);
+        float kx = kk * dot(a, b);
+        float ky = kk * (2.0 * dot(a, a) + dot(d, b)) / 3.0;
+        float kz = kk * dot(d, a);
+        float res = 0.0;
+        float p = ky - kx * kx;
+        float p3 = p * p * p;
+        float q = kx * (2.0 * kx * kx - 3.0 * ky) + kz;
+        float h = q * q + 4.0 * p3;
+        if (h >= 0.0) {
+          h = sqrt(h);
+          vec2 x = (vec2(h, -h) - q) / 2.0;
+          vec2 uv = sign(x) * pow(abs(x), vec2(1.0 / 3.0));
+          float t = uv.x + uv.y - kx;
+          t = clamp(t, 0.0, 1.0);
+          vec2 qos = d + (c + b * t) * t;
+          res = length(qos);
+        } else {
+          float z = sqrt(-p);
+          float v = acos(q / (p * z * 2.0)) / 3.0;
+          float m = cos(v);
+          float n = sin(v) * 1.732050808;
+          vec3 t = vec3(m + m, -n - m, n - m) * z - kx;
+          t = clamp(t, 0.0, 1.0);
+          vec2 qos = d + (c + b * t.x) * t.x;
+          float dis = dot(qos, qos);
+          res = dis;
+          qos = d + (c + b * t.y) * t.y;
+          dis = dot(qos, qos);
+          res = min(res, dis);
+          qos = d + (c + b * t.z) * t.z;
+          dis = dot(qos, qos);
+          res = min(res, dis);
+          res = sqrt(res);
+        }
+        return res;
+      }
+
+      // Функция для получения координат на "кривой сердца"
+      vec2 getHeartPosition(float t) {
+        return vec2(
+          16.0 * sin(t) * sin(t) * sin(t),
+          -(13.0 * cos(t) - 5.0 * cos(2.0 * t)
+          - 2.0 * cos(3.0 * t) - cos(4.0 * t))
+        );
+      }
+
+      // Функция для придания "свечения" (glow)
+      float getGlow(float dist, float radius, float intensity) {
+        return pow(radius / dist, intensity);
+      }
+
+      // Получаем расстояние до сегментов сердца
+      float getSegment(float t, vec2 pos, float offset, float scale){
+        for (int i = 0; i < POINT_COUNT; i++){
+          // (speed * t) заставляет сердце "двигаться" по кривой
+          points[i] = getHeartPosition(
+            offset + float(i) * len + fract(speed * t) * 6.28
+          );
+        }
+        vec2 c = (points[0] + points[1]) / 2.0;
+        vec2 c_prev;
+        float dist = 10000.0; // Начальное большое значение
+        for (int i = 0; i < POINT_COUNT - 1; i++){
+          c_prev = c;
+          c = (points[i] + points[i + 1]) / 2.0;
+          dist = min(dist, sdBezier(
+            pos, scale * c_prev, scale * points[i], scale * c
+          ));
+        }
+        return max(0.0, dist);
+      }
+
+      void main() {
+        // Нормализуем координаты (0..1)
+        vec2 uv = gl_FragCoord.xy / resolution.xy;
+        float widthHeightRatio = resolution.x / resolution.y;
+
+        vec2 centre = vec2(0.5, 0.5);
+
+        // Смещаем систему координат в центр экрана
+        vec2 pos = centre - uv;
+        // Выравниваем пропорции
+        pos.y /= widthHeightRatio;
+
+        // Смещаем сердце по вертикали (два сегмента выше/ниже)
+        vec2 pos1 = pos + vec2(0.0, 0.3);
+        vec2 pos2 = pos + vec2(0.0, -0.175);
+
+        // Масштабы для сегментов
+        float scale1 = 0.00003 * height;
+        float scale2 = 0.00005 * height;
+
+        float t = time;
+        vec3 col = vec3(0.0);
+
+        // Первый сегмент
+        float dist = getSegment(t, pos1, 0.0, scale1);
+        float glow = getGlow(dist, radius, intensity);
+        // Белая сердцевина (сглаживание по дистанции)
+        col += 10.0 * vec3(smoothstep(0.003, 0.001, dist));
+        // Розовое свечение
+        col += glow * vec3(1.0, 0.0, 0.2);
+
+        // Второй сегмент
+        dist = getSegment(t, pos1, 3.0, scale1);
+        glow = getGlow(dist, radius, intensity);
+        col += 10.0 * vec3(smoothstep(0.003, 0.001, dist));
+        col += glow * vec3(1.0, 0.0, 0.2);
+
+        // Третий сегмент
+        dist = getSegment(t, pos2, 0.0, scale2);
+        glow = getGlow(dist, radius, intensity);
+        col += 10.0 * vec3(smoothstep(0.003, 0.001, dist));
+        col += glow * vec3(1.0, 0.0, 0.0);
+
+        // Четвёртый сегмент
+        dist = getSegment(t, pos2, 3.4, scale2);
+        glow = getGlow(dist, radius, intensity);
+        col += 10.0 * vec3(smoothstep(0.003, 0.001, dist));
+        col += glow * vec3(1.0, 0.0, 0.0);
+
+        // Тон-маппинг (1 - exp(-x)) для красивого свечения
+        col = 1.0 - exp(-col);
+        // Небольшая гамма-коррекция
+        col = pow(col, vec3(0.95));
+
+        // Устанавливаем итоговый цвет
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+  </script>
 </body>
 </html>
